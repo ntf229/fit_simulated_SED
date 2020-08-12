@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+    
+This is a template ski file to be copied and changed from the shell script
+
+Parameters to be changed from bash script:
+numPackets="numPhotonsValue"
+inclination="angleValue"
+ -->
+
+<!-- A SKIRT parameter file © Astronomical Observatory, Ghent University -->
+<skirt-simulation-hierarchy type="MonteCarloSimulation" format="9" producer="SKIRT v9.0 (git 58c16ec built on 17/07/2020 at 16:38:37)" time="2020-07-23T14:19:37.790">
+    <MonteCarloSimulation userLevel="Regular" simulationMode="DustEmission" numPackets="numPhotonsValue">
+        <random type="Random">
+            <Random seed="0"/>
+        </random>
+        <units type="Units">
+            <ExtragalacticUnits fluxOutputStyle="Frequency"/>
+        </units>
+        <cosmology type="Cosmology">
+            <LocalUniverseCosmology/>
+        </cosmology>
+        <sourceSystem type="SourceSystem">
+            <SourceSystem minWavelength="0.1 micron" maxWavelength="1000 micron" wavelengths="0.55 micron" sourceBias="0.5">
+                <sources type="Source">
+                    <ParticleSource filename="radiation.txt" importVelocity="true" importVelocityDispersion="false" useColumns="" sourceWeight="1" wavelengthBias="0.5">
+                        <smoothingKernel type="SmoothingKernel">
+                            <CubicSplineSmoothingKernel/>
+                        </smoothingKernel>
+                        <sedFamily type="SEDFamily">
+                            <FSPSSEDFamily imf="Chabrier"/>
+                        </sedFamily>
+                        <wavelengthBiasDistribution type="WavelengthDistribution">
+                            <LogWavelengthDistribution minWavelength="0.0001 micron" maxWavelength="1e6 micron"/>
+                        </wavelengthBiasDistribution>
+                    </ParticleSource>
+                </sources>
+            </SourceSystem>
+        </sourceSystem>
+        <mediumSystem type="MediumSystem">
+            <MediumSystem numDensitySamples="100">
+                <photonPacketOptions type="PhotonPacketOptions">
+                    <PhotonPacketOptions minWeightReduction="1e4" minScattEvents="0" pathLengthBias="0.5"/>
+                </photonPacketOptions>
+                <dustEmissionOptions type="DustEmissionOptions">
+                    <DustEmissionOptions dustEmissionType="Equilibrium" includeHeatingByCMB="false" storeEmissionRadiationField="false" secondaryPacketsMultiplier="1" spatialBias="0.5" wavelengthBias="0.5">
+                        <cellLibrary type="SpatialCellLibrary">
+                            <AllCellsLibrary/>
+                        </cellLibrary>
+                        <radiationFieldWLG type="DisjointWavelengthGrid">
+                            <LogWavelengthGrid minWavelength="0.1 micron" maxWavelength="1000 micron" numWavelengths="250"/>
+                        </radiationFieldWLG>
+                        <dustEmissionWLG type="DisjointWavelengthGrid">
+                            <LogWavelengthGrid minWavelength="0.1 micron" maxWavelength="1000 micron" numWavelengths="250"/>
+                        </dustEmissionWLG>
+                        <wavelengthBiasDistribution type="WavelengthDistribution">
+                            <LogWavelengthDistribution minWavelength="0.0001 micron" maxWavelength="1e6 micron"/>
+                        </wavelengthBiasDistribution>
+                    </DustEmissionOptions>
+                </dustEmissionOptions>
+                <media type="Medium">
+                    <ParticleMedium filename="dust.txt" massFraction="1" importMetallicity="true" importTemperature="true" maxTemperature="0 K" importVelocity="false" importMagneticField="false" importVariableMixParams="false" useColumns="">
+                        <smoothingKernel type="SmoothingKernel">
+                            <CubicSplineSmoothingKernel/>
+                        </smoothingKernel>
+                        <materialMix type="MaterialMix">
+                            <ZubkoDustMix numSilicateSizes="5" numGraphiteSizes="5" numPAHSizes="5"/>
+                        </materialMix>
+                    </ParticleMedium>
+                </media>
+                <grid type="SpatialGrid">
+                    <PolicyTreeSpatialGrid minX="-35000 pc" maxX="35000 pc" minY="-35000 pc" maxY="35000 pc" minZ="-35000 pc" maxZ="35000 pc" treeType="OctTree">
+                        <policy type="TreePolicy">
+                            <DensityTreePolicy minLevel="3" maxLevel="7" maxDustFraction="1e-6" maxDustOpticalDepth="0" wavelength="0.55 micron" maxDustDensityDispersion="0" maxElectronFraction="1e-6" maxGasFraction="1e-6"/>
+                        </policy>
+                    </PolicyTreeSpatialGrid>
+                </grid>
+            </MediumSystem>
+        </mediumSystem>
+        <instrumentSystem type="InstrumentSystem">
+            <InstrumentSystem>
+                <defaultWavelengthGrid type="WavelengthGrid">
+                    <LogWavelengthGrid minWavelength="0.1 micron" maxWavelength="1000 micron" numWavelengths="250"/>
+                </defaultWavelengthGrid>
+                <instruments type="Instrument">
+                    <FullInstrument instrumentName="i00" distance="100 Mpc" inclination="angleValue" azimuth="0 deg" roll="0 deg" fieldOfViewX="7e4 pc" numPixelsX="250" centerX="0 pc" fieldOfViewY="7e4 pc" numPixelsY="250" centerY="0 pc" recordComponents="false" numScatteringLevels="0" recordPolarization="false" recordStatistics="false"/>
+                </instruments>
+            </InstrumentSystem>
+        </instrumentSystem>
+        <probeSystem type="ProbeSystem">
+            <ProbeSystem/>
+        </probeSystem>
+    </MonteCarloSimulation>
+</skirt-simulation-hierarchy>

@@ -1,0 +1,5 @@
+interval 1
+SKIRT/MonteCarloSimulation/numPackets 1e6
+SKIRT/FullInstrument/inclination 0_deg
+nwalkers 64
+filters sdss_u0,sdss_g0,sdss_r0,sdss_i0,sdss_z0,galex_FUV,galex_NUV,wise_w1,wise_w2,wise_w3,wise_w4,iras_60,iras_100
